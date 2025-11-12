@@ -1,0 +1,72 @@
+{
+  "name": "nmea-web-serial",
+  "type": "module",
+  "version": "1.0.0",
+  "packageManager": "npm@10.8.2",
+  "description": "NMEA 0183 sentence parser for the Web Serial API",
+  "author": {
+    "name": "Jonathan Dawe",
+    "email": "jonwe@bas.ac.uk"
+  },
+  "homepage": "https://github.com/antarctica/nmea-web-serial#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antarctica/nmea-web-serial.git"
+  },
+  "bugs": {
+    "url": "https://github.com/antarctica/nmea-web-serial/issues"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/nmea-web-serial.js",
+      "require": "./dist/nmea-web-serial.cjs"
+    }
+  },
+  "main": "./dist/nmea-web-serial.cjs",
+  "module": "./dist/nmea-web-serial.js",
+  "types": "./dist/nmea-web-serial.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "build:all": "npm run build && turbo run build",
+    "lint": "eslint . --fix",
+    "lint:all": "turbo run lint",
+    "test": "vitest --run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest --coverage",
+    "test:all": "turbo run test",
+    "release": "npm run build && changelogen --release --push && npm publish",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "nmea-simple": "^3.3.0",
+    "xstate": "^5.24.0"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^4.19.0",
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "@types/node": "^22.19.0",
+    "@types/w3c-web-serial": "^1.0.8",
+    "@vitest/coverage-v8": "^4.0.7",
+    "camelcase": "^8.0.0",
+    "changelogen": "^0.6.2",
+    "eslint": "^9.39.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
+    "turbo": "^2.0.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.1",
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^4.0.7"
+  },
+  "lint-staged": {
+    "*.ts": "npm run lint"
+  },
+  "workspaces": [
+    "example"
+  ]
+}
