@@ -21,6 +21,7 @@ declare global {
   interface Window {
     handleConnect: () => void
     handleDisconnect: () => void
+    handleBaudRateChange: () => void
   }
 }
 
@@ -30,6 +31,17 @@ window.handleConnect = () => {
 
 window.handleDisconnect = () => {
   actor.send({ type: 'DISCONNECT' })
+}
+
+window.handleBaudRateChange = () => {
+  const baudRateInput = document.getElementById('baudRateInput') as HTMLInputElement | null
+  if (!baudRateInput) {
+    return
+  }
+  const baudRate = Number.parseInt(baudRateInput.value, 10)
+  if (!Number.isNaN(baudRate) && baudRate > 0) {
+    actor.send({ type: 'SET_BAUD_RATE', baudRate })
+  }
 }
 
 function updateUI(state: ReturnType<typeof actor.getSnapshot>) {
@@ -54,6 +66,13 @@ function updateUI(state: ReturnType<typeof actor.getSnapshot>) {
   connectBtn.disabled = isConnecting || isConnected
   connectBtn.textContent = isConnecting ? 'Connecting...' : 'Connect'
   disconnectBtn.disabled = !isConnected
+
+  // Update baud rate input
+  const baudRateInput = document.getElementById('baudRateInput') as HTMLInputElement | null
+  if (baudRateInput) {
+    baudRateInput.disabled = isConnecting || isConnected
+    baudRateInput.value = String(state.context.baudRate)
+  }
 
   // Update error display
   const errorDisplay = document.getElementById('errorDisplay')

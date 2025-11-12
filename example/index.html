@@ -105,6 +105,20 @@
     <h1>NMEA Serial Port Test</h1>
     
     <div class="button-group">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <label for="baudRateInput">Baud Rate:</label>
+        <input 
+          type="number" 
+          id="baudRateInput" 
+          value="4800" 
+          min="300" 
+          max="115200" 
+          step="300"
+          style="width: 100px; padding: 0.25rem; border: 1px solid #ccc; border-radius: 4px;"
+          onchange="handleBaudRateChange()"
+        />
+      </div>
+      
       <button id="connectBtn" onclick="handleConnect()">
         Connect
       </button>
