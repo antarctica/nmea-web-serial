@@ -10,7 +10,7 @@ From the root directory:
 npm install
 ```
 
-This will set up the workspace and link the `nmea-web-serial` package to the example.
+This will install dependencies for the workspace, including the example. The example uses the local `nmea-web-serial` package via workspace linking.
 
 Or from the example directory:
 
@@ -18,7 +18,7 @@ Or from the example directory:
 npm install
 ```
 
-This will work the same way since the root package.json defines workspaces.
+This will install the example's dependencies, linking to the local `nmea-web-serial` package.
 
 ## Development
 
@@ -36,31 +36,18 @@ This will start a Vite dev server on port 5174 (or the next available port) and 
 
 ## Production Build
 
-From the root directory (recommended):
+From the example directory:
 
 ```bash
-npm run build:all
-```
-
-This uses Turbo to build both the library and example in the correct order.
-
-Or build individually:
-
-```bash
-# Build the library first
-npm run build
-
-# Then build the example
 cd example
 npm run build
 ```
 
 **How it works in production:**
-- Turbo ensures dependencies are built first (`nmea-web-serial` before `example`)
-- The Vite alias is disabled during build
-- The example uses the built package from `node_modules` (via the workspace dependency)
+- The Vite alias is disabled during build (production mode)
+- The example uses the built workspace package from `node_modules`
+- Make sure to build the parent library first: `npm run build` (from root)
 - The built example is self-contained and can be deployed independently
-- Turbo caches builds for faster subsequent builds
 
 ## What the example demonstrates
 

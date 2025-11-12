@@ -31,7 +31,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "build:all": "npm run build && turbo run build",
+    "build:all": "turbo run build",
     "lint": "eslint . --fix",
     "lint:all": "turbo run lint",
     "test": "vitest --run",
