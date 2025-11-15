@@ -7,7 +7,6 @@ import type {
   GGAPacket,
   GLLPacket,
   HDGPacket,
-  HDMPacket,
   HDTPacket,
   RMCPacket,
   VTGPacket,
@@ -144,15 +143,13 @@ function calculateVariationValue(hdg: HDGPacket): number {
 
 /**
  * Computes heading from available packets.
- * Priority: 1. HDT, 2. HDG, 3. HDM, 4. COG (from RMC or VTG)
+ * Priority: 1. HDT, 2. HDG, 3. COG (from RMC or VTG)
  */
 function computeHeading(
   hdt?: HDTPacket,
   hdg?: HDGPacket,
-  hdm?: HDMPacket,
   rmc?: RMCPacket,
   vtg?: VTGPacket,
-  externalVariation?: number,
 ): NavigationData['heading'] {
   if (hdt && hdt.heading !== undefined) {
     return { degreesTrue: hdt.heading, source: 'HDT', isDerived: false }
@@ -164,15 +161,6 @@ function computeHeading(
     return {
       degreesTrue: hdg.heading + variationValue,
       source: 'HDG',
-      isDerived: false,
-    }
-  }
-
-  if (hdm && hdm.heading !== undefined && externalVariation !== undefined) {
-    // HDM heading is magnetic, need external variation to get true heading
-    return {
-      degreesTrue: hdm.heading + externalVariation,
-      source: 'HDM',
       isDerived: false,
     }
   }
@@ -220,27 +208,12 @@ function computeDepth(
  * Each navigation property (time, position, speed, heading, depth) is computed
  * with priority-based fallback to the best available data source.
  */
-export function computeNavigationData(
-  packets: StoredPackets,
-  externalVariation?: number,
-): NavigationData {
+export function computeNavigationData(packets: StoredPackets): NavigationData {
   const time = computeTime(packets.ZDA, packets.GGA, packets.RMC, packets.GLL)
   const position = computePosition(packets.GGA, packets.RMC, packets.GLL)
   const speed = computeSpeed(packets.VTG, packets.RMC)
-  const heading = computeHeading(
-    packets.HDT,
-    packets.HDG,
-    packets.HDM,
-    packets.RMC,
-    packets.VTG,
-    externalVariation,
-  )
-  const depth = computeDepth(
-    packets.DPT,
-    packets.DBT,
-    packets.DBS,
-    packets.DBK,
-  )
+  const heading = computeHeading(packets.HDT, packets.HDG, packets.RMC, packets.VTG)
+  const depth = computeDepth(packets.DPT, packets.DBT, packets.DBS, packets.DBK)
 
   return { time, position, speed, heading, depth }
 }

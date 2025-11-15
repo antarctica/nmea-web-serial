@@ -7,6 +7,7 @@ export default antfu(
       '.github',
       'dist',
       'node_modules',
+      'README.md',
     ],
   },
   {

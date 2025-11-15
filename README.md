@@ -68,28 +68,22 @@ For navigation-focused use cases, use `createNavigationNmeaClient`:
 import { createNavigationNmeaClient } from 'nmea-web-serial'
 
 const client = createNavigationNmeaClient({
-  // Optional: magnetic variation for heading calculations (degrees)
-  externalVariation: 5.5,
-  
-  // Optional: filter specific sentence IDs
-  allowedSentenceIds: ['GGA', 'RMC', 'VTG'],
-  
   // Optional: baud rate (default: 4800)
   baudRate: 4800,
-  
+
   // Optional: enable logging of parsed packets
   enableLogging: true,
-  
+
   // Optional: callback when navigation data updates
   onData: (navigationData) => {
     // navigationData contains position, time, speed, heading, depth
   },
-  
+
   // Optional: callback when connection state changes
   onStateChange: (isConnected) => {
     // isConnected is true when connected, false otherwise
   },
-  
+
   // Optional: callback when errors occur
   onError: (error) => {
     // error is a string message
@@ -102,7 +96,7 @@ const client = createNavigationNmeaClient({
 For custom data adapters, use the generic `NmeaClient`:
 
 ```typescript
-import { NmeaClient, createNmeaMachine } from 'nmea-web-serial'
+import { createNmeaMachine, NmeaClient } from 'nmea-web-serial'
 
 // Create a custom machine with your adapter
 const machine = createNmeaMachine({
@@ -208,7 +202,7 @@ The navigation adapter automatically computes navigation data from multiple NMEA
 - **Position**: GGA (with fix) → RMC (valid) → GLL (valid)
 - **Time**: ZDA → GGA → RMC → GLL (ZDA includes timezone for local time)
 - **Speed**: VTG → RMC
-- **Heading**: HDT → HDG → HDM (with external variation) → COG (from RMC/VTG)
+- **Heading**: HDT → HDG → COG (from RMC/VTG)
 - **Depth**: DPT → DBT → DBS → DBK
 
 ## Custom Machines
@@ -257,7 +251,6 @@ The navigation adapter uses the following sentence types to compute navigation d
 - `VTG` - Course Over Ground and Ground Speed
 - `HDT` - Heading, True
 - `HDG` - Heading, Deviation & Variation
-- `HDM` - Heading, Magnetic
 - `DPT` - Depth
 - `DBT` - Depth Below Transducer
 - `DBS` - Depth Below Surface

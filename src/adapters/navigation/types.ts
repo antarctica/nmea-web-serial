@@ -7,7 +7,6 @@ import type {
   GGAPacket,
   GLLPacket,
   HDGPacket,
-  HDMPacket,
   HDTPacket,
   RMCPacket,
   VTGPacket,
@@ -42,7 +41,7 @@ export interface NavigationData {
   } | null
   heading: {
     degreesTrue: number
-    source: 'HDT' | 'HDG' | 'HDM' | 'COG' | null
+    source: 'HDT' | 'HDG' | 'COG' | null
     isDerived: boolean
   } | null
   depth: {
@@ -67,8 +66,6 @@ export interface StoredPackets extends Record<string, unknown> {
   HDT?: HDTPacket
   // HDG — Heading, Deviation & Variation
   HDG?: HDGPacket
-  // HDM — Heading, Magnetic
-  HDM?: HDMPacket
   // DPT — Depth
   DPT?: DPTPacket
   // DBT — Depth Below Transducer
