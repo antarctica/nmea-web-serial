@@ -1,6 +1,9 @@
 import type { NavigationData, NmeaMachineActor, StoredPackets } from 'nmea-web-serial'
+import L from 'leaflet'
 import { createNavigationNmeaMachine } from 'nmea-web-serial'
 import { createActor } from 'xstate'
+import 'leaflet/dist/leaflet.css'
+import './index.css'
 
 // Create the machine
 const machine = createNavigationNmeaMachine()
@@ -16,32 +19,82 @@ actor.subscribe((state) => {
   updateUI(state)
 })
 
-// Make functions available globally
-declare global {
-  interface Window {
-    handleConnect: () => void
-    handleDisconnect: () => void
-    handleBaudRateChange: () => void
-  }
-}
+// Initialize map
+let map: L.Map | null = null
+let marker: L.Marker | null = null
 
-window.handleConnect = () => {
-  actor.send({ type: 'CONNECT' })
-}
-
-window.handleDisconnect = () => {
-  actor.send({ type: 'DISCONNECT' })
-}
-
-window.handleBaudRateChange = () => {
-  const baudRateInput = document.getElementById('baudRateInput') as HTMLInputElement | null
-  if (!baudRateInput) {
+function initializeMap() {
+  const mapEl = document.getElementById('map')
+  if (!mapEl || map) {
     return
   }
-  const baudRate = Number.parseInt(baudRateInput.value, 10)
-  if (!Number.isNaN(baudRate) && baudRate > 0) {
-    actor.send({ type: 'SET_BAUD_RATE', baudRate })
+
+  map = L.map(mapEl).setView([0, 0], 2)
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors',
+    maxZoom: 19,
+  }).addTo(map)
+
+  // Create a default marker icon (fix for webpack/vite)
+  const defaultIcon = L.icon({
+    iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+    iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+    shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41],
+  })
+
+  L.Marker.prototype.options.icon = defaultIcon
+}
+
+function updateMapPosition(lat: number, lon: number) {
+  if (!map) {
+    initializeMap()
   }
+
+  if (!map) {
+    return
+  }
+
+  if (!marker) {
+    marker = L.marker([lat, lon]).addTo(map)
+  } else {
+    marker.setLatLng([lat, lon])
+  }
+
+  map.setView([lat, lon], map.getZoom() > 10 ? map.getZoom() : 10)
+}
+
+// Attach event listeners
+const connectBtn = document.getElementById('connectBtn') as HTMLButtonElement | null
+const disconnectBtn = document.getElementById('disconnectBtn') as HTMLButtonElement | null
+const baudRateInput = document.getElementById('baudRateInput') as HTMLInputElement | null
+
+// Initialize map on load
+initializeMap()
+
+if (connectBtn) {
+  connectBtn.addEventListener('click', () => {
+    actor.send({ type: 'CONNECT' })
+  })
+}
+
+if (disconnectBtn) {
+  disconnectBtn.addEventListener('click', () => {
+    actor.send({ type: 'DISCONNECT' })
+  })
+}
+
+if (baudRateInput) {
+  baudRateInput.addEventListener('change', () => {
+    const baudRate = Number.parseInt(baudRateInput.value, 10)
+    if (!Number.isNaN(baudRate) && baudRate > 0) {
+      actor.send({ type: 'SET_BAUD_RATE', baudRate })
+    }
+  })
 }
 
 function updateUI(state: ReturnType<typeof actor.getSnapshot>) {
@@ -53,9 +106,6 @@ function updateUI(state: ReturnType<typeof actor.getSnapshot>) {
   stateValueEl.textContent = stateValue
 
   // Update button states
-  const connectBtn = document.getElementById('connectBtn') as HTMLButtonElement | null
-  const disconnectBtn = document.getElementById('disconnectBtn') as HTMLButtonElement | null
-
   if (!connectBtn || !disconnectBtn) {
     return
   }
@@ -68,7 +118,6 @@ function updateUI(state: ReturnType<typeof actor.getSnapshot>) {
   disconnectBtn.disabled = !isConnected
 
   // Update baud rate input
-  const baudRateInput = document.getElementById('baudRateInput') as HTMLInputElement | null
   if (baudRateInput) {
     baudRateInput.disabled = isConnecting || isConnected
     baudRateInput.value = String(state.context.baudRate)
@@ -131,6 +180,9 @@ function updateUI(state: ReturnType<typeof actor.getSnapshot>) {
       html += `<div class="meta">Source: ${data.position.source}</div>`
       positionEl.innerHTML = html
       positionEl.className = ''
+
+      // Update map position
+      updateMapPosition(data.position.latitude, data.position.longitude)
     } else {
       positionEl.textContent = 'No position data'
       positionEl.className = 'no-data'

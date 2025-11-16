@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NMEA Serial Port Test - Client API</title>
+</head>
+<body>
+  <div class="container">
+    <h1>NMEA Serial Port Test</h1>
+    
+    <div class="button-group">
+      <div class="baud-rate-group">
+        <label for="baudRateInput">Baud Rate:</label>
+        <input 
+          type="number" 
+          id="baudRateInput" 
+          value="4800" 
+          min="300" 
+          max="115200" 
+          step="300"
+        />
+      </div>
+      
+      <button id="connectBtn">
+        Connect
+      </button>
+      
+      <button id="disconnectBtn" disabled>
+        Disconnect
+      </button>
+    </div>
+
+    <div class="status-panel">
+      <h2>Status</h2>
+      <p><strong>State:</strong> <span id="stateValue">disconnected</span></p>
+      <p id="errorDisplay" class="error" style="display: none;"></p>
+      
+      <div class="navigation-section">
+        <h3>Navigation Data</h3>
+        <div class="data-grid">
+          <div class="data-item">
+            <strong>Time</strong>
+            <div id="timeData" class="no-data">No time data</div>
+          </div>
+          
+          <div class="data-item">
+            <strong>Position</strong>
+            <div id="positionData" class="no-data">No position data</div>
+          </div>
+          
+          <div class="data-item">
+            <strong>Speed</strong>
+            <div id="speedData" class="no-data">No speed data</div>
+          </div>
+          
+          <div class="data-item">
+            <strong>Heading</strong>
+            <div id="headingData" class="no-data">No heading data</div>
+          </div>
+          
+          <div class="data-item">
+            <strong>Depth</strong>
+            <div id="depthData" class="no-data">No depth data</div>
+          </div>
+        </div>
+        
+        <h3 class="map-section">Map</h3>
+        <div id="map"></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
+

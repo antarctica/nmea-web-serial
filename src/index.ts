@@ -9,18 +9,22 @@
 export {
   computeNavigationData,
   createNavigationAdapter,
+  createNavigationNmeaClient,
   createNavigationNmeaConfig,
   createNavigationNmeaMachine,
   initialNavigationData,
   initialNavigationPackets,
   NAVIGATION_SENTENCE_IDS,
   type NavigationData,
+  type NavigationNmeaClientOptions,
   type StoredPackets,
 } from './adapters/navigation'
 
 // Core machine functionality
 export {
   createNmeaMachine,
+  NmeaClient,
+  type NmeaClientOptions,
   type NmeaContext,
   type NmeaEvent,
   type NmeaMachineActor,

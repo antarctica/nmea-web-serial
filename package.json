@@ -67,6 +67,6 @@
     "*.ts": "npm run lint"
   },
   "workspaces": [
-    "example"
+    "examples/*"
   ]
 }
