@@ -1,6 +1,31 @@
 # Changelog
 
 
+## v1.1.2
+
+[compare changes](https://github.com/antarctica/nmea-web-serial/compare/v1.1.1...v1.1.2)
+
+### 🩹 Fixes
+
+- Broken home link and add links to examples ([81030a2](https://github.com/antarctica/nmea-web-serial/commit/81030a2))
+
+### 💅 Refactors
+
+- Simplify navigation adapter API ([d4aae00](https://github.com/antarctica/nmea-web-serial/commit/d4aae00))
+
+### 📖 Documentation
+
+- Add more detail about the client api and adapter pattern ([d6feb05](https://github.com/antarctica/nmea-web-serial/commit/d6feb05))
+- Restructure examples and create new react and vanilla client example ([bb44ed7](https://github.com/antarctica/nmea-web-serial/commit/bb44ed7))
+
+### 🤖 CI
+
+- Typedocs and new build output for github pages ([22e6a49](https://github.com/antarctica/nmea-web-serial/commit/22e6a49))
+
+### ❤️ Contributors
+
+- Jonny Dawe <jonwe@bas.ac.uk>
+
 ## v1.1.1
 
 [compare changes](https://github.com/antarctica/nmea-web-serial/compare/v1.1.0...v1.1.1)
