@@ -9,14 +9,6 @@ import { NmeaClient } from '../../core/client'
 import { createNavigationNmeaMachine } from './adapter'
 
 /**
- * Options for the navigation NMEA client.
- */
-export interface NavigationNmeaClientOptions extends Omit<NmeaClientOptions<NavigationData>, 'onData'> {
-  /** Callback function called when navigation data is updated. */
-  onData?: (navigation: NavigationData) => void
-}
-
-/**
  * Simple client for navigation NMEA data.
  * Creates a machine and manages connection state automatically.
  *
@@ -36,7 +28,7 @@ export interface NavigationNmeaClientOptions extends Omit<NmeaClientOptions<Navi
  * ```
  */
 export function createNavigationNmeaClient(
-  options?: NavigationNmeaClientOptions,
+  options?: NmeaClientOptions<NavigationData>,
 ): NmeaClient<NavigationData, StoredPackets> {
   const machine = createNavigationNmeaMachine()
 

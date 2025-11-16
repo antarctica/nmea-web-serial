@@ -1,4 +1,3 @@
-import { resolve } from 'node:path'
 import process from 'node:process'
 import { defineConfig } from 'vite'
 
@@ -12,15 +11,6 @@ export default defineConfig(({ mode }) => {
     base: isProduction ? (process.env.VITE_BASE_PATH || '/nmea-web-serial/') : '/',
     server: {
       port: 5176,
-    },
-    resolve: {
-      alias: {
-        // In development mode, use the parent library source directly for hot reload
-        // In production mode, use the built workspace package from node_modules
-        'nmea-web-serial': isProduction
-          ? 'nmea-web-serial'
-          : resolve(__dirname, '../../src/index.ts'),
-      },
     },
   }
 })

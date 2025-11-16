@@ -1,4 +1,4 @@
-name: Deploy Example to GitHub Pages
+name: Deploy Documentation and Examples to GitHub Pages
 
 on:
   push:
@@ -34,20 +34,60 @@ jobs:
       - name: Build package
         run: npm run build
 
-      - name: Build example
-        working-directory: ./example
+      - name: Build TypeDoc documentation
+        run: npm run docs
+
+      - name: Build xstate-react example
+        working-directory: ./examples/xstate-react
         env:
-          VITE_BASE_PATH: /nmea-web-serial/
+          VITE_BASE_PATH: /nmea-web-serial/examples/xstate-react/
         run: npm run build
+
+      - name: Build xstate-vanilla example
+        working-directory: ./examples/xstate-vanilla
+        env:
+          VITE_BASE_PATH: /nmea-web-serial/examples/xstate-vanilla/
+        run: npm run build
+
+      - name: Build client-vanilla example
+        working-directory: ./examples/client-vanilla
+        env:
+          VITE_BASE_PATH: /nmea-web-serial/examples/client-vanilla/
+        run: npm run build
+
+      - name: Prepare GitHub Pages structure
+        run: |
+          mkdir -p gh-pages
+          # Copy TypeDoc documentation to root
+          cp -r docs/* gh-pages/
+          # Copy examples to subdirectories
+          mkdir -p gh-pages/examples/xstate-react
+          cp -r examples/xstate-react/dist/* gh-pages/examples/xstate-react/
+          mkdir -p gh-pages/examples/xstate-vanilla
+          cp -r examples/xstate-vanilla/dist/* gh-pages/examples/xstate-vanilla/
+          mkdir -p gh-pages/examples/client-vanilla
+          cp -r examples/client-vanilla/dist/* gh-pages/examples/client-vanilla/
 
       - name: Verify build output
         run: |
-          if [ ! -d "example/dist" ]; then
-            echo "Error: example/dist directory not found"
+          if [ ! -d "gh-pages" ]; then
+            echo "Error: gh-pages directory not found"
             exit 1
           fi
-          if [ ! -f "example/dist/index.html" ]; then
-            echo "Error: example/dist/index.html not found"
+          if [ ! -f "gh-pages/index.html" ]; then
+            echo "Error: gh-pages/index.html (TypeDoc) not found"
+            exit 1
+          fi
+          if [ ! -f "gh-pages/examples/xstate-react/index.html" ]; then
+            echo "Error: xstate-react example not found"
+            exit 1
+          fi
+          if [ ! -f "gh-pages/examples/xstate-vanilla/index.html" ]; then
+            echo "Error: xstate-vanilla example not found"
+            exit 1
+          fi
+          if [ ! -f "gh-pages/examples/client-vanilla/index.html" ]; then
+            echo "Error: client-vanilla example not found"
             exit 1
           fi
 
@@ -57,7 +97,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./example/dist
+          path: ./gh-pages
 
   deploy:
     environment:

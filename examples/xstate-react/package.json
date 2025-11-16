@@ -10,13 +10,13 @@
     "lint": "echo 'No linting configured for example'"
   },
   "dependencies": {
+    "@xstate/react": "^4.1.0",
     "leaflet": "^1.9.4",
     "nmea-web-serial": "*",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-leaflet": "^4.2.1",
-    "xstate": "^5.24.0",
-    "@xstate/react": "^4.1.0"
+    "xstate": "^5.24.0"
   },
   "devDependencies": {
     "@types/leaflet": "^1.9.8",
@@ -27,4 +27,3 @@
     "vite": "^7.2.1"
   }
 }
-

@@ -1,22 +1,17 @@
 /**
- * NMEA Stream Processing Module
+ * @packageDocumentation
+ * @categoryDescription Core
+ * NMEA Web Serial API -- This description is added with the `@categoryDescription` tag
+ * on the entry point in src/index.ts
  *
- * This module provides functionality for parsing NMEA sentences from serial ports,
- * computing navigation data, and managing the state machine for serial port connections.
+ * @document documents/examples.md
  */
 
 // Navigation adapter (convenience for navigation-focused use cases)
 export {
-  computeNavigationData,
-  createNavigationAdapter,
   createNavigationNmeaClient,
-  createNavigationNmeaConfig,
   createNavigationNmeaMachine,
-  initialNavigationData,
-  initialNavigationPackets,
-  NAVIGATION_SENTENCE_IDS,
   type NavigationData,
-  type NavigationNmeaClientOptions,
   type StoredPackets,
 } from './adapters/navigation'
 
@@ -43,5 +38,5 @@ export type { DBKPacket } from './parser/codecs/DBK'
 export type { DBSPacket } from './parser/codecs/DBS'
 export type { DPTPacket } from './parser/codecs/DPT'
 
-// Utils (encoding/decoding utilities)
-export * from './utils'
+// re-export all of the nmea-simple packets types
+export type { Packet } from 'nmea-simple'
