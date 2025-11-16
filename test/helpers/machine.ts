@@ -50,6 +50,9 @@ export function createTestConfig(
  *
  * @param adapter - The adapter function to use
  * @param options - Optional configuration overrides
+ * @param options.allowedSentenceIds - Optional list of allowed sentence IDs
+ * @param options.initialData - Optional initial data value
+ * @param options.initialPackets - Optional initial packets value
  * @returns A test machine configuration
  */
 export function createCustomTestConfig<TData>(

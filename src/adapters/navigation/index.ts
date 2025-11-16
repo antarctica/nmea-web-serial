@@ -14,7 +14,5 @@ export {
 
 export { createNavigationNmeaClient } from './client'
 
-export type { NavigationNmeaClientOptions } from './client'
-
 export { computeNavigationData } from './computation'
 export type { NavigationData, StoredPackets } from './types'

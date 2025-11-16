@@ -1,6 +1,6 @@
-# NMEA Web Serial - Vanilla HTML Example
+# NMEA Web Serial - XState Vanilla Example
 
-This is a vanilla HTML example demonstrating how to use the NMEA Web Serial library.
+This is a vanilla HTML example using XState to demonstrate how to use the NMEA Web Serial library.
 
 ## Setup
 
@@ -15,6 +15,7 @@ This will install dependencies for the workspace, including the example. The exa
 Or from the example directory:
 
 ```bash
+cd examples/xstate-vanilla
 npm install
 ```
 
@@ -25,29 +26,6 @@ This will install the example's dependencies, linking to the local `nmea-web-ser
 ```bash
 npm run dev
 ```
-
-This will start a Vite dev server on port 5174 (or the next available port) and open the example in your browser.
-
-**How it works in development:**
-- The example imports from `'nmea-web-serial'` in the code
-- Vite's alias configuration redirects this to the parent library's source (`../src/index.ts`)
-- This enables hot module reloading - changes to the parent library source will automatically reload in the example
-- No need to rebuild the parent library during development
-
-## Production Build
-
-From the example directory:
-
-```bash
-cd example
-npm run build
-```
-
-**How it works in production:**
-- The Vite alias is disabled during build (production mode)
-- The example uses the built workspace package from `node_modules`
-- Make sure to build the parent library first: `npm run build` (from root)
-- The built example is self-contained and can be deployed independently
 
 ## What the example demonstrates
 

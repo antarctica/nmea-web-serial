@@ -1,0 +1,21 @@
+{
+  "name": "client-vanilla",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "echo 'No linting configured for example'"
+  },
+  "dependencies": {
+    "leaflet": "^1.9.4",
+    "nmea-web-serial": "*"
+  },
+  "devDependencies": {
+    "@types/leaflet": "^1.9.8",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.1"
+  }
+}

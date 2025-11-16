@@ -9,18 +9,6 @@ import { NmeaClient } from '../../core/client'
 import { createNavigationNmeaMachine } from './adapter'
 
 /**
- * Options for the navigation NMEA client.
- */
-export interface NavigationNmeaClientOptions extends Omit<NmeaClientOptions<NavigationData>, 'onData'> {
-  /** Optional magnetic variation for heading calculations. */
-  externalVariation?: number
-  /** Optional list of sentence IDs to filter. */
-  allowedSentenceIds?: readonly string[]
-  /** Callback function called when navigation data is updated. */
-  onData?: (navigation: NavigationData) => void
-}
-
-/**
  * Simple client for navigation NMEA data.
  * Creates a machine and manages connection state automatically.
  *
@@ -30,7 +18,6 @@ export interface NavigationNmeaClientOptions extends Omit<NmeaClientOptions<Navi
  * @example
  * ```typescript
  * const client = createNavigationNmeaClient({
- *   externalVariation: 5.5,
  *   enableLogging: true,
  *   onData: (navigation) => {
  *     console.log('Position:', navigation.position);
@@ -41,12 +28,9 @@ export interface NavigationNmeaClientOptions extends Omit<NmeaClientOptions<Navi
  * ```
  */
 export function createNavigationNmeaClient(
-  options?: NavigationNmeaClientOptions,
+  options?: NmeaClientOptions<NavigationData>,
 ): NmeaClient<NavigationData, StoredPackets> {
-  const machine = createNavigationNmeaMachine({
-    externalVariation: options?.externalVariation,
-    allowedSentenceIds: options?.allowedSentenceIds,
-  })
+  const machine = createNavigationNmeaMachine()
 
   return new NmeaClient<NavigationData, StoredPackets>(machine, {
     enableLogging: options?.enableLogging,

@@ -18,7 +18,6 @@ export const NAVIGATION_SENTENCE_IDS = [
   'VTG',
   'HDT',
   'HDG',
-  'HDM',
   'DPT',
   'DBT',
   'DBS',
@@ -27,15 +26,14 @@ export const NAVIGATION_SENTENCE_IDS = [
 ] as const
 
 /**
- * Creates a navigation adapter function with the specified magnetic variation.
- * The adapter is a closure that captures the variation value.
+ * Creates a navigation adapter function.
+ * Transforms stored packets into navigation data.
  *
- * @param externalVariation - Optional magnetic variation for heading calculations.
  * @returns An adapter function that transforms packets into navigation data.
  */
-export function createNavigationAdapter(externalVariation?: number) {
+export function createNavigationAdapter() {
   return (packets: StoredPackets): NavigationData => {
-    return computeNavigationData(packets, externalVariation)
+    return computeNavigationData(packets)
   }
 }
 
@@ -59,15 +57,10 @@ export const initialNavigationPackets: StoredPackets = {}
  * Configuration for creating a navigation-focused NMEA machine.
  * This is a convenience configuration that uses the navigation adapter.
  */
-export function createNavigationNmeaConfig(
-  options?: {
-    allowedSentenceIds?: readonly string[]
-    externalVariation?: number
-  },
-): NmeaMachineConfig<NavigationData, StoredPackets> {
+export function createNavigationNmeaConfig(): NmeaMachineConfig<NavigationData, StoredPackets> {
   return {
-    adapter: createNavigationAdapter(options?.externalVariation),
-    allowedSentenceIds: options?.allowedSentenceIds ?? NAVIGATION_SENTENCE_IDS,
+    adapter: createNavigationAdapter(),
+    allowedSentenceIds: NAVIGATION_SENTENCE_IDS,
     initialData: initialNavigationData,
     initialPackets: initialNavigationPackets,
   }
@@ -77,23 +70,13 @@ export function createNavigationNmeaConfig(
  * Convenience function to create a navigation-focused NMEA machine.
  * This is a pre-configured machine that computes navigation data from NMEA packets.
  *
- * @param options - Optional configuration for the navigation machine.
- * @param options.allowedSentenceIds - Optional array of allowed sentence IDs.
- * @param options.externalVariation - Optional magnetic variation for heading calculations.
  * @returns An NMEA machine configured for navigation data computation.
  *
  * @example
  * ```typescript
- * const machine = createNavigationNmeaMachine({
- *   externalVariation: 5.5,
- * });
+ * const machine = createNavigationNmeaMachine();
  * ```
  */
-export function createNavigationNmeaMachine(
-  options?: {
-    allowedSentenceIds?: readonly string[]
-    externalVariation?: number
-  },
-) {
-  return createNmeaMachine(createNavigationNmeaConfig(options))
+export function createNavigationNmeaMachine() {
+  return createNmeaMachine(createNavigationNmeaConfig())
 }

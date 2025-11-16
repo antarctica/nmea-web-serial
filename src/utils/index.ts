@@ -345,7 +345,7 @@ function getYearFromString(yearString: string, rmcCompatible: boolean): number {
  * object.
  * @param {string} time Time the format "hhmmss" or "hhmmss.ss"
  * @param {string=} date Optional date in format the ddmmyyyy or ddmmyy
- * @returns {Date}
+ * @returns {Date} A Date object representing the parsed time and date
  */
 export function parseTime(time: string, date?: string, rmcCompatible = false): Date {
   if (time === '') {
