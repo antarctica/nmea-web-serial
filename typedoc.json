@@ -15,10 +15,13 @@
   "groupOrder": ["Documentation", "*"],
   "hostedBaseUrl": "https://antarctica.github.io/nmea-web-serial/",
   "navigationLinks": {
-    "GitHub": "https://github.com/antarctica/nmea-web-serial"
+    "GitHub": "https://github.com/antarctica/nmea-web-serial",
+    "Client Vanilla": "/nmea-web-serial/examples/client-vanilla/",
+    "XState React": "/nmea-web-serial/examples/xstate-react/",
+    "XState Vanilla": "/nmea-web-serial/examples/xstate-vanilla/"
   },
   "sidebarLinks": {
-    "Home": "index.html"
+    "Home": "/nmea-web-serial/"
   },
   "highlightLanguages": ["typescript", "javascript", "html", "css"],
   "markdownItOptions": {
