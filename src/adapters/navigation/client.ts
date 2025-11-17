@@ -12,12 +12,9 @@ import { createNavigationNmeaMachine } from './adapter'
  * Simple client for navigation NMEA data.
  * Creates a machine and manages connection state automatically.
  *
- * @param options - Configuration options.
- * @returns A client instance for managing the NMEA connection.
- *
  * @example
  * ```typescript
- * const client = createNavigationNmeaClient({
+ * const client = new NavigationNmeaClient({
  *   enableLogging: true,
  *   onData: (navigation) => {
  *     console.log('Position:', navigation.position);
@@ -27,16 +24,20 @@ import { createNavigationNmeaMachine } from './adapter'
  * client.connect();
  * ```
  */
-export function createNavigationNmeaClient(
-  options?: NmeaClientOptions<NavigationData>,
-): NmeaClient<NavigationData, StoredPackets> {
-  const machine = createNavigationNmeaMachine()
-
-  return new NmeaClient<NavigationData, StoredPackets>(machine, {
-    enableLogging: options?.enableLogging,
-    baudRate: options?.baudRate,
-    onData: options?.onData,
-    onStateChange: options?.onStateChange,
-    onError: options?.onError,
-  })
+export class NavigationNmeaClient extends NmeaClient<NavigationData, StoredPackets> {
+  /**
+   * Creates a new navigation NMEA client.
+   *
+   * @param options - Optional configuration and callbacks.
+   */
+  constructor(options?: NmeaClientOptions<NavigationData>) {
+    const machine = createNavigationNmeaMachine()
+    super(machine, {
+      enableLogging: options?.enableLogging,
+      baudRate: options?.baudRate,
+      onData: options?.onData,
+      onStateChange: options?.onStateChange,
+      onError: options?.onError,
+    })
+  }
 }

@@ -12,6 +12,7 @@ import type {
   VTGPacket,
   ZDAPacket,
 } from 'nmea-simple'
+import type { PacketStub } from 'nmea-simple/dist/codecs/PacketStub'
 import type { DBKPacket } from '../../parser/codecs/DBK'
 import type { DBSPacket } from '../../parser/codecs/DBS'
 import type { DPTPacket } from '../../parser/codecs/DPT'
@@ -53,7 +54,7 @@ export interface NavigationData {
 /**
  * Types for stored packets by sentence type.
  */
-export interface StoredPackets extends Record<string, unknown> {
+export interface StoredPackets extends Record<string, PacketStub | undefined> {
   // GGA — GPS Fix Data (Global Positioning System Fix Data)
   GGA?: GGAPacket
   // RMC — Recommended Minimum Specific GNSS Data

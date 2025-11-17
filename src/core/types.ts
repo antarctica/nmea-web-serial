@@ -3,13 +3,14 @@
  */
 
 import type { Packet } from 'nmea-simple'
+import type { PacketStub } from 'nmea-simple/dist/codecs/PacketStub'
 
 /**
  * Configuration for creating an NMEA machine.
  * @template TData - The type of computed/translated data stored in context.
  * @template TPackets - The type of stored packets (typically a record of sentence ID to packet).
  */
-export interface NmeaMachineConfig<TData, TPackets extends Record<string, unknown>> {
+export interface NmeaMachineConfig<TData, TPackets extends Record<string, PacketStub | undefined>> {
   /** Function that transforms stored packets into the computed data type. */
   adapter: (packets: TPackets) => TData
   /** Optional list of sentence IDs to filter and store. If not provided, all parsed sentences are stored. */
@@ -25,7 +26,7 @@ export interface NmeaMachineConfig<TData, TPackets extends Record<string, unknow
  * @template TData - The type of computed/translated data.
  * @template TPackets - The type of stored packets.
  */
-export interface NmeaContext<TData, TPackets extends Record<string, unknown>> {
+export interface NmeaContext<TData, TPackets extends Record<string, PacketStub | undefined>> {
   /** The active Web Serial port connection, or null if disconnected. */
   port: SerialPort | null
   /** Current error message, or null if no error. */

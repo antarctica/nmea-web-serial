@@ -1,5 +1,5 @@
 import type { Packet } from 'nmea-simple'
-
+import type { PacketStub } from 'nmea-simple/dist/codecs/PacketStub'
 import type { ActorRefFrom } from 'xstate'
 import type { NmeaContext, NmeaEvent, NmeaMachineConfig } from './types'
 /// <reference types="@types/w3c-web-serial" />
@@ -254,10 +254,8 @@ const readNmeaStreamLogic = fromCallback<NmeaEvent, { port: SerialPort }>(
 /**
  * Factory function to create an NMEA state machine with a generic adapter pattern.
  *
- * @template TData - The type of computed/translated data stored in context.
- * @template TPackets - The type of stored packets (typically a record of sentence ID to packet).
- * @param config - Configuration for the machine including adapter function and initial values.
- * @returns An XState machine configured with the provided adapter and types.
+ * Creates an XState state machine that manages serial port connections, parses NMEA sentences,
+ * and transforms them into your application's data format using the provided adapter function.
  *
  * @example
  * ```typescript
@@ -267,9 +265,23 @@ const readNmeaStreamLogic = fromCallback<NmeaEvent, { port: SerialPort }>(
  *   initialData: { time: null, position: null },
  *   initialPackets: {},
  * });
+ *
+ * const actor = createActor(machine);
+ * actor.start();
+ * actor.send({ type: 'CONNECT' });
  * ```
+ *
+ * @template TData - The type of computed/translated data stored in context.
+ * @template TPackets - The type of stored packets (typically a record of sentence ID to packet).
+ * @param config - Configuration for the machine including adapter function and initial values.
+ * @returns An XState state machine that can be used with `createActor` from XState.
+ *
+ * @remarks
+ * The returned machine is an XState state machine. Use it with XState's `createActor` to create
+ * an actor instance, or use the {@link NmeaClient} class for a simpler API that doesn't require
+ * direct XState knowledge.
  */
-export function createNmeaMachine<TData, TPackets extends Record<string, unknown>>(
+export function createNmeaMachine<TData, TPackets extends Record<string, PacketStub | undefined>>(
   config: NmeaMachineConfig<TData, TPackets>,
 ) {
   const { adapter, allowedSentenceIds, initialData, initialPackets } = config
@@ -504,6 +516,6 @@ export function createNmeaMachine<TData, TPackets extends Record<string, unknown
  * @template TData - The type of computed/translated data.
  * @template TPackets - The type of stored packets.
  */
-export type NmeaMachineActor<TData, TPackets extends Record<string, unknown>> = ActorRefFrom<
+export type NmeaMachineActor<TData, TPackets extends Record<string, PacketStub | undefined>> = ActorRefFrom<
   ReturnType<typeof createNmeaMachine<TData, TPackets>>
 >

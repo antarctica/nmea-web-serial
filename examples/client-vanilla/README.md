@@ -37,7 +37,7 @@ npm run dev
 ## How it works
 
 The example uses:
-- `createNavigationNmeaClient()` to create a client instance with callbacks
+- `NavigationNmeaClient` class to create a client instance with callbacks
 - `client.connect()` and `client.disconnect()` methods for connection management
 - `client.setBaudRate()` to configure the baud rate
 - `client.isConnected`, `client.isConnecting`, `client.data`, and `client.error` properties

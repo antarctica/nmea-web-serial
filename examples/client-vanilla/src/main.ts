@@ -1,6 +1,6 @@
 import type { NavigationData } from 'nmea-web-serial'
 import L from 'leaflet'
-import { createNavigationNmeaClient } from 'nmea-web-serial'
+import { NavigationNmeaClient } from 'nmea-web-serial'
 import 'leaflet/dist/leaflet.css'
 import './index.css'
 
@@ -61,7 +61,7 @@ function updateMapPosition(lat: number, lon: number) {
 }
 
 // Create the client with callbacks
-const client = createNavigationNmeaClient({
+const client = new NavigationNmeaClient({
   onData: (data: NavigationData) => {
     updateNavigationData(data)
   },
