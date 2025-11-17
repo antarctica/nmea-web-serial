@@ -1,10 +1,23 @@
 # NMEA 0183 sentence parser for the Web Serial API
 
+[![npm version](https://img.shields.io/npm/v/nmea-web-serial.svg)](https://www.npmjs.com/package/nmea-web-serial)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
+
 This library provides a state machine-based solution for parsing NMEA 0183 sentences from serial ports using the Web Serial API. It builds on top of [nmea-simple](https://www.npmjs.com/package/nmea-simple) and extends it with custom depth sentence codecs (DPT, DBS, DBK) and a navigation data adapter that computes position, time, speed, heading, and depth from multiple NMEA sentences.
 
-The library uses [XState](https://xstate.js.org/) to manage serial port connection state and provides a convenient navigation adapter that automatically computes navigation data from various NMEA sentence types.
+The library uses [XState](https://xstate.js.org/) to orchestrate and manage the serial port connection state.
 
-The official NMEA 0183 standard can be found [here](http://www.nmea.org/content/nmea_standards/nmea_0183_v_410.asp) and is described in clear terms [here](https://gpsd.gitlab.io/gpsd/NMEA.html).
+The official NMEA 0183 standard can be found [here](https://www.nmea.org/nmea-0183.html) and is described in clear terms [here](https://gpsd.gitlab.io/gpsd/NMEA.html).
+
+## Browser Support
+
+The Web Serial API is supported in:
+- Chrome 89+
+- Edge 89+
+- Opera 75+
+
+Firefox and Safari do not currently support the Web Serial API.
 
 ## Installation
 
@@ -137,7 +150,7 @@ const client = new NmeaClient(machine, {
 
 ## Machine API
 
-For advanced use cases or when you need direct access to the XState machine, you can work with the machine API directly:
+It is possible to work with the machine API directly. Please consult the [XState documentation](https://stately.ai/docs/xstate) for more information on how to use the machine API.
 
 ```typescript
 import { createNavigationNmeaMachine } from 'nmea-web-serial'
@@ -261,14 +274,6 @@ The navigation adapter uses the following sentence types to compute navigation d
 
 This project is written in [TypeScript](http://www.typescriptlang.org/). The library can be used by plain JavaScript as shown above, and the typing information is included with the library so that anyone wishing to use TypeScript will gain the benefits of the type information.
 
-## Browser Support
-
-The Web Serial API is supported in:
-- Chrome 89+
-- Edge 89+
-- Opera 75+
-
-Firefox and Safari do not currently support the Web Serial API.
 
 ## Acknowledgements
 
