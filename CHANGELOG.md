@@ -1,6 +1,24 @@
 # Changelog
 
 
+## v1.1.3
+
+[compare changes](https://github.com/antarctica/nmea-web-serial/compare/v1.1.2...v1.1.3)
+
+### 🩹 Fixes
+
+- Husky deprecation warning resolved ([211554c](https://github.com/antarctica/nmea-web-serial/commit/211554c))
+
+### 💅 Refactors
+
+- Change from factory function to class for exposing nmeaClient class ([4fcf466](https://github.com/antarctica/nmea-web-serial/commit/4fcf466))
+- Expose less internal api in package exports ([9bde896](https://github.com/antarctica/nmea-web-serial/commit/9bde896))
+- Improved type safety via usage of PaketStub type and additional docs for machine functions ([f4611fc](https://github.com/antarctica/nmea-web-serial/commit/f4611fc))
+
+### ❤️ Contributors
+
+- Jonny Dawe <jonwe@bas.ac.uk>
+
 ## v1.1.2
 
 [compare changes](https://github.com/antarctica/nmea-web-serial/compare/v1.1.1...v1.1.2)
