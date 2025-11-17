@@ -15,13 +15,11 @@ export {
   type StoredPackets,
 } from './adapters/navigation'
 
-// Core machine functionality
+// Core machine functionality (for custom adapters)
 export {
   createNmeaMachine,
   NmeaClient,
   type NmeaClientOptions,
-  type NmeaContext,
-  type NmeaEvent,
   type NmeaMachineActor,
   type NmeaMachineConfig,
 } from './core'
@@ -32,11 +30,3 @@ export {
   parseUnsafeNmeaSentence,
   type UnsafeAndCustomPackets,
 } from './parser'
-
-// Codecs (custom NMEA sentence decoders)
-export type { DBKPacket } from './parser/codecs/DBK'
-export type { DBSPacket } from './parser/codecs/DBS'
-export type { DPTPacket } from './parser/codecs/DPT'
-
-// re-export all of the nmea-simple packets types
-export type { Packet } from 'nmea-simple'
