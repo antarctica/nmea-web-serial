@@ -4,6 +4,7 @@
  * Framework-agnostic and works with any JavaScript environment.
  */
 
+import type { PacketStub } from 'nmea-simple/dist/codecs/PacketStub'
 import type { createNmeaMachine, NmeaMachineActor } from './machine'
 import { createActor } from 'xstate'
 
@@ -27,7 +28,7 @@ export interface NmeaClientOptions<TData = unknown> {
  * Simple client for managing NMEA connections.
  * Abstracts away XState details while still exposing the machine for advanced use.
  */
-export class NmeaClient<TData, TPackets extends Record<string, unknown>> {
+export class NmeaClient<TData, TPackets extends Record<string, PacketStub | undefined>> {
   private actor: NmeaMachineActor<TData, TPackets>
   private subscription: { unsubscribe: () => void } | null = null
   private options?: NmeaClientOptions<TData>

@@ -68,14 +68,25 @@ export function createNavigationNmeaConfig(): NmeaMachineConfig<NavigationData, 
 
 /**
  * Convenience function to create a navigation-focused NMEA machine.
- * This is a pre-configured machine that computes navigation data from NMEA packets.
  *
- * @returns An NMEA machine configured for navigation data computation.
+ * This is a pre-configured machine that computes navigation data (position, time, speed, heading, depth)
+ * from NMEA packets. It uses the navigation adapter which automatically handles priority-based fallback
+ * between different sentence types.
  *
  * @example
  * ```typescript
  * const machine = createNavigationNmeaMachine();
+ * const actor = createActor(machine);
+ * actor.start();
+ * actor.send({ type: 'CONNECT' });
  * ```
+ *
+ * @returns An XState state machine configured for navigation data computation.
+ *
+ * @remarks
+ * The returned machine is an XState state machine. Use it with XState's `createActor` to create
+ * an actor instance, or use the {@link NavigationNmeaClient} class for a simpler API that doesn't
+ * require direct XState knowledge.
  */
 export function createNavigationNmeaMachine() {
   return createNmeaMachine(createNavigationNmeaConfig())
