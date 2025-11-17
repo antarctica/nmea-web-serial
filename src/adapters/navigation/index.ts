@@ -12,7 +12,7 @@ export {
   NAVIGATION_SENTENCE_IDS,
 } from './adapter'
 
-export { createNavigationNmeaClient } from './client'
+export { NavigationNmeaClient } from './client'
 
 export { computeNavigationData } from './computation'
 export type { NavigationData, StoredPackets } from './types'

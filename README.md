@@ -17,10 +17,10 @@ npm install nmea-web-serial
 The simplest way to use the library is with the client API, which provides a clean abstraction over the state machine:
 
 ```typescript
-import { createNavigationNmeaClient } from 'nmea-web-serial'
+import { NavigationNmeaClient } from 'nmea-web-serial'
 
 // Create a client for navigation data
-const client = createNavigationNmeaClient({
+const client = new NavigationNmeaClient({
   baudRate: 4800,
   enableLogging: false,
   onData: (navigationData) => {
@@ -62,12 +62,12 @@ The client API provides a simple, framework-agnostic interface for managing NMEA
 
 ### Navigation Client
 
-For navigation-focused use cases, use `createNavigationNmeaClient`:
+For navigation-focused use cases, use `NavigationNmeaClient`:
 
 ```typescript
-import { createNavigationNmeaClient } from 'nmea-web-serial'
+import { NavigationNmeaClient } from 'nmea-web-serial'
 
-const client = createNavigationNmeaClient({
+const client = new NavigationNmeaClient({
   // Optional: baud rate (default: 4800)
   baudRate: 4800,
 

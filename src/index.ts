@@ -9,9 +9,9 @@
 
 // Navigation adapter (convenience for navigation-focused use cases)
 export {
-  createNavigationNmeaClient,
   createNavigationNmeaMachine,
   type NavigationData,
+  NavigationNmeaClient,
   type StoredPackets,
 } from './adapters/navigation'
 
